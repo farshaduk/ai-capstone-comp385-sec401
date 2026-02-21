@@ -1,0 +1,37 @@
+flowchart TD
+    TEXT["Raw Text Column"]
+
+    STAT["Statistical Features<br/>(10 features)"]
+    FRAUD["Fraud-Linguistic Features<br/>(9 features)"]
+    TFIDF["TF-IDF + SVD<br/>(50 features)"]
+    EMB["Sentence-BERT Embeddings<br/>(384 features)"]
+
+    TEXT --- STAT
+    TEXT --- FRAUD
+    TEXT --- TFIDF
+    TEXT --- EMB
+
+    subgraph Statistical["Statistical Features (examples)"]
+        direction TB
+        S1["char_count"]
+        S2["word_count"]
+        S3["sentence_count"]
+        S4["avg_word_length"]
+        S5["upper_ratio"]
+        S6["digit_ratio"]
+        S7["special_ratio"]
+        S8["exclamation_count"]
+        S9["question_count"]
+        S10["allcaps_word_count"]
+    end
+
+    STAT --- S1
+    STAT --- S2
+    STAT --- S3
+    STAT --- S4
+    STAT --- S5
+    STAT --- S6
+    STAT --- S7
+    STAT --- S8
+    STAT --- S9
+    STAT --- S10

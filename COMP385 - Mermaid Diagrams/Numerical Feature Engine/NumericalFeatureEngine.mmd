@@ -1,0 +1,29 @@
+flowchart TD
+    NUM["Numeric Columns"]
+
+    SCALE["Scaling"]
+    LOG["Log Transform"]
+    POLY["Polynomial Features"]
+    BIN["Quantile Binning"]
+    AGG["Row-Level Aggregates"]
+
+    NUM --- SCALE
+    NUM --- LOG
+    NUM --- POLY
+    NUM --- BIN
+    NUM --- AGG
+
+    subgraph Scaling_Methods["Scaling Methods"]
+        direction TB
+        ROBUST["RobustScaler<br/>(median/IQR-based, outlier-resistant)"]
+        STANDARD["StandardScaler<br/>(mu=0, sigma=1)"]
+        MINMAX["MinMaxScaler<br/>(0-1 range)"]
+        POWER["PowerTransformer<br/>(Yeo-Johnson)"]
+        QUANTILE["QuantileTransformer<br/>(uniform distribution)"]
+    end
+
+    SCALE --- ROBUST
+    SCALE --- STANDARD
+    SCALE --- MINMAX
+    SCALE --- POWER
+    SCALE --- QUANTILE

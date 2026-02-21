@@ -1,0 +1,40 @@
+flowchart TB
+    subgraph Frontend["Frontend"]
+        direction LR
+        UI_Analyze["Listing\nAnalyzer"]
+        UI_Renter["Renter\nDashboard"]
+        UI_Admin["Admin\nDashboard"]
+    end
+
+    subgraph API["FastAPI API"]
+        direction LR
+        AuthRoutes["Auth (JWT)\nRoutes"]
+        RenterRoutes["Renter\nRoutes"]
+        AdminRoutes["Admin\nRoutes"]
+    end
+
+    subgraph CoreAI["Core AI (7)"]
+        direction LR
+        FDE["Fraud Detection\nUse Cases (Fusion)"]
+        BERT["BERT Fraud\nClassifier"]
+        Indicator["Indicator\nEngine"]
+        PriceAnomaly["Price Anomaly\nEngine"]
+        AddressVal["Address\nValidation"]
+        ImageAI["Image Analysis\nEngine"]
+        XAI["Real XAI\nEngine"]
+    end
+
+    subgraph DataStorage["Data & Storage"]
+        direction TB
+        Raw["Raw datasets"]
+        Features["Feature CSVs"]
+        Models["Model artifacts\n(joblib + PyTorch)"]
+        DB["SQLite DB"]
+    end
+
+    %% simple layer flow (no fan-out)
+    UI_Analyze --> AuthRoutes --> FDE
+    UI_Renter --> RenterRoutes --> FDE
+    UI_Admin --> AdminRoutes --> DataStorage
+
+    FDE --> DataStorage

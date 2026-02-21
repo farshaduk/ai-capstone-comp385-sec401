@@ -1,0 +1,37 @@
+flowchart LR
+    TEXT["Listing Text"]
+
+    CAT1["PAYMENT<br/>Off-platform payment requests"]
+    CAT2["URGENCY<br/>Pressure to act immediately"]
+    CAT3["CONTACT<br/>Avoid in-person meetings"]
+    CAT4["IDENTITY<br/>Fake landlord stories"]
+    CAT7["TEXT_STYLE<br/>All-caps, excessive punctuation"]
+    CAT8["NLP_SEMANTIC<br/>Language anomalies"]
+    CAT5["CONTENT<br/>Vague descriptions, stolen text"]
+
+    PRICE["Price"]
+    CAT6["PRICING<br/>(below market)"]
+
+    SEV["Severity Scoring<br/>(1-5 scale)"]
+    RISK["Risk Score Output"]
+
+    TEXT --- CAT1
+    TEXT --- CAT2
+    TEXT --- CAT3
+    TEXT --- CAT4
+    TEXT --- CAT7
+    TEXT --- CAT5
+    TEXT --- CAT8
+
+    PRICE --- CAT6
+
+    CAT1 --- SEV
+    CAT2 --- SEV
+    CAT3 --- SEV
+    CAT4 --- SEV
+    CAT5 --- SEV
+    CAT6 --- SEV
+    CAT7 --- SEV
+    CAT8 --- SEV
+
+    SEV --- RISK

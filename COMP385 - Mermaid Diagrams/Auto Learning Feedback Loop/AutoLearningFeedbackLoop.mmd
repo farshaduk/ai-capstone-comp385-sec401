@@ -1,0 +1,26 @@
+flowchart TD
+    USER["User Feedback<br/>(confirm fraud / mark safe)"] --> AGG["Feedback Aggregation"]
+
+    AGG --> PAT["Pattern Learning<br/>(min 10 samples)"]
+    AGG --> CAL["Weight Calibration<br/>(conf >= 0.7)"]
+    AGG --> INS["Insight Generation"]
+
+    PAT --> STORE["Store Learned Patterns<br/>(data/learned_patterns.json)"]
+    STORE --> REVIEW["Admin Review / Revert"]
+
+    subgraph PatternTypes["Learned Patterns"]
+        direction TB
+        P1["Keyword Patterns<br/>(e.g., 'wire transfer' -> 95% fraud)"]
+        P2["Price Ranges<br/>(e.g., $200-400 1BR -> 80% fraud)"]
+        P3["Indicator Combos<br/>(payment + urgency -> 90%)"]
+    end
+
+    PAT --> P1
+    PAT --> P2
+    PAT --> P3
+
+    CAL --> LIMIT["Incremental Updates<br/>(max 20% change / cycle)"]
+    LIMIT --> APPLY["Apply Updated Weights<br/>(Indicator Engine + Fusion)"]
+
+    APPLY --> OUT["Improved Future Predictions"]
+    OUT --> USER

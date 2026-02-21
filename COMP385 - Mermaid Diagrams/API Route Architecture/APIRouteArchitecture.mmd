@@ -1,0 +1,32 @@
+flowchart TD
+
+subgraph Auth["Authentication (/api/auth)"]
+direction TB
+A1["POST /api/auth/register"] --> A2["POST /api/auth/login"]
+end
+
+A2 --> TOKEN["JWT Access Token\nAuthorization: Bearer <token>"]
+TOKEN --> PROTECTED["Protected Routes\n(JWT + RBAC)"]
+
+PROTECTED --> Admin
+PROTECTED --> Renter
+
+subgraph Admin["Admin Routes (Protected) (/api/admin)"]
+direction TB
+AD1["GET /api/admin/dashboard"] -->
+AD2["POST /api/admin/datasets/upload"] -->
+AD3["POST /api/admin/datasets/:id/preprocess"] -->
+AD4["POST /api/admin/models/train"] -->
+AD5["POST /api/admin/models/train-bert"] -->
+AD6["GET /api/admin/users"] -->
+AD7["GET /api/admin/audit-logs"]
+end
+
+subgraph Renter["Renter Routes (Protected) (/api/renter)"]
+direction TB
+R1["POST /api/renter/analyze"] -->
+R2["POST /api/renter/image-analysis"] -->
+R3["GET /api/renter/history"] -->
+R4["GET /api/renter/explain/:analysis_id"] -->
+R5["POST /api/renter/feedback"]
+end

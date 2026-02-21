@@ -1,0 +1,32 @@
+flowchart TD
+    TEXT["Input Text"] --> LOAD["Load Fine-Tuned BERT<br/>(or base DistilBERT)"]
+
+    LOAD --> IG["Integrated Gradients"]
+    LOAD --> ATT["Attention Weight<br/>Extraction"]
+    LOAD --> SHAP_M["SHAP Values<br/>(if available)"]
+    LOAD --> FALL["Semantic Pattern Fallback<br/>(regex-based attribution)"]
+
+    IG --> FINAL["Final Attribution<br/>(0.60 IG + 0.40 Attention)"]
+    ATT --> FINAL
+
+    FINAL --> REPORT["XAI Report"]
+    SHAP_M --> REPORT
+    FALL --> REPORT
+
+    REPORT --> CHAIN["Reasoning Chain Generation"]
+
+    subgraph IG_Detail["Integrated Gradients"]
+        IG1["Create baseline<br/>(zero embedding)"]
+        IG2["Interpolate m steps<br/>(baseline → input, m=50)"]
+        IG3["Compute gradients<br/>at each step"]
+        IG4["Average gradients<br/>× (input − baseline)"]
+    end
+
+    subgraph ATT_Detail["Attention Weights"]
+        ATT1["Extract attention matrices<br/>(all 6 layers)"]
+        ATT2["Average across 12 heads"]
+        ATT3["Read [CLS] attention row"]
+    end
+
+    IG --> IG1 --> IG2 --> IG3 --> IG4
+    ATT --> ATT1 --> ATT2 --> ATT3

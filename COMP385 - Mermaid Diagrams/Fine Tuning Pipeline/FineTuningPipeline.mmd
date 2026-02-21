@@ -1,0 +1,24 @@
+flowchart TD
+    subgraph Training["Fine-Tuning Pipeline"]
+        DATA["Labeled Dataset<br/>(text, label) CSV"]
+        SPLIT["Train/Val/Test Split<br/>(70/10/20)"]
+        TOK["DistilBERT Tokenizer<br/>(max_length=256)"]
+        DL["PyTorch DataLoader<br/>(batch=16, shuffle)"]
+        MODEL["DistilBertForSequenceClassification<br/>(num_labels=2)"]
+        OPT["AdamW Optimizer<br/>(lr=2e-5, wd=0.01)"]
+        SCHED["Linear Warmup Scheduler<br/>(10% warmup ratio)"]
+        EPOCH["Training Loop<br/>(4 epochs)"]
+        EVAL["Validation Evaluation"]
+
+        DATA --- SPLIT --- TOK --- DL --- MODEL --- OPT --- SCHED --- EPOCH --- EVAL
+    end
+
+    subgraph Inference["Inference Pipeline"]
+        NEWTXT["New Listing Text"]
+        TOK2["DistilBERT Tokenizer<br/>(max_length=256)"]
+        MODEL2["DistilBertForSequenceClassification<br/>(num_labels=2)"]
+        PROB["Softmax Probabilities<br/>(fraud vs legit)"]
+        PRED["Predicted Class<br/>(fraud / legit)"]
+
+        NEWTXT --- TOK2 --- MODEL2 --- PROB --- PRED
+    end

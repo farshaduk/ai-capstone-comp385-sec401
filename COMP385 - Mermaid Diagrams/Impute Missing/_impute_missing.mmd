@@ -1,0 +1,23 @@
+flowchart TD
+    MISS["Missing Values Detected"]
+
+    NUM{"Numeric?"}
+    KNN["KNN Imputer<br/>(k=5 neighbors)"]
+    MICE["MICE / Iterative Imputer<br/>(max_iter=10)"]
+    MED["Median Fill"]
+
+    CAT{"Categorical?"}
+    MODE["Mode Fill"]
+
+    TXT{"Text?"}
+    EMPTY["Fill with empty string"]
+
+    MISS --- NUM
+    NUM ---|Yes| KNN
+    KNN ---|Fallback| MICE
+    MICE ---|Fallback| MED
+
+    NUM ---|No| CAT
+    CAT ---|Yes| MODE
+    CAT ---|No| TXT
+    TXT ---|Yes| EMPTY

@@ -1,0 +1,56 @@
+erDiagram
+    USERS ||--o{ RISK_ANALYSES : performs
+    USERS ||--o{ FEEDBACK : provides
+    RISK_ANALYSES ||--o{ FEEDBACK : receives
+    DATASETS ||--o{ ML_MODELS : trains
+
+    USERS {
+        int id PK
+        string email
+        string username
+        string hashed_password
+        string role
+        string subscription_plan
+        int scans_remaining
+        datetime created_at
+    }
+
+    DATASETS {
+        int id PK
+        string name
+        string description
+        string file_path
+        string processed_file_path
+        int row_count
+        int column_count
+        int feature_count
+        string preprocessing_status
+        datetime created_at
+    }
+
+    ML_MODELS {
+        int id PK
+        int dataset_id FK
+        string model_path
+        string metrics_json
+        datetime created_at
+    }
+
+    RISK_ANALYSES {
+        int id PK
+        int user_id FK
+        string listing_text
+        float risk_score
+        string risk_level
+        string indicators_json
+        datetime created_at
+    }
+
+    FEEDBACK {
+        int id PK
+        int user_id FK
+        int risk_analysis_id FK
+        string feedback_type
+        string comment
+        datetime created_at
+    }

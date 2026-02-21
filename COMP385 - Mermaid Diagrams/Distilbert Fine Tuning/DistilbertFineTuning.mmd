@@ -1,0 +1,16 @@
+flowchart TD
+    subgraph DistilBERT["DistilBERT Architecture"]
+        EMB["Token + Position<br/>Embeddings"]
+        L1["Transformer Layer 1<br/>(Multi-Head Attention)"]
+        L2["Transformer Layer 2"]
+        L3["Transformer Layer 3"]
+        L4["Transformer Layer 4"]
+        L5["Transformer Layer 5"]
+        L6["Transformer Layer 6"]
+        CLS["[CLS] Token<br/>Representation"]
+        HEAD["Classification Head<br/>(Linear 768->2)"]
+    end
+
+    OUTPUT["P(fraud) / P(legitimate)"]
+
+    EMB --- L1 --- L2 --- L3 --- L4 --- L5 --- L6 --- CLS --- HEAD --- OUTPUT

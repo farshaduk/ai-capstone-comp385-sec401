@@ -1,0 +1,23 @@
+flowchart TD
+    INPUT["Listing Text + Price + Location"]
+
+    BERT_S["BERT Classifier<br/>Weight: 50%"]
+    IND_S["Indicator Engine<br/>Weight: 25%"]
+    PRICE_S["Price Anomaly Engine<br/>Weight: 15%"]
+    ADDR_S["Address Validation<br/>Weight: 10%"]
+
+    FUSION["Signal Fusion Layer"]
+    AGREE["Agreement Boost<br/>(>=3 agree -> +15% confidence<br/>>=2 agree -> +10% confidence)"]
+    RISKLVL["Risk Level Classification"]
+
+    INPUT --- BERT_S
+    INPUT --- IND_S
+    INPUT --- PRICE_S
+    INPUT --- ADDR_S
+
+    BERT_S --- FUSION
+    IND_S --- FUSION
+    PRICE_S --- FUSION
+    ADDR_S --- FUSION
+
+    FUSION --- AGREE --- RISKLVL

@@ -1,0 +1,29 @@
+flowchart TD
+    IMG["Image Input<br/>(URL / Upload / File)"] --> LOAD["Load & Decode Image"]
+
+    %% main analysis branches
+    LOAD --> HASH["Perceptual Hashing<br/>(pHash + SHA-256)"]
+    LOAD --> META["EXIF Metadata Analysis"]
+    LOAD --> AI_DET["AI Generation Detection<br/>(statistical patterns)"]
+    LOAD --> QUAL["Quality Analysis<br/>(resolution, consistency)"]
+    LOAD --> STOCK["Stock Photo Detection<br/>(watermarks / stock traits)"]
+
+    %% sub-results
+    HASH --> DUP["Duplicate / Reuse Check<br/>(hash DB lookup)"]
+    META --> META_OUT["Metadata Signals<br/>(gps, camera, timestamp, missing_exif)"]
+    AI_DET --> AI_OUT["AI Signals<br/>(smooth edges, uniform noise, freq anomalies)"]
+    QUAL --> QUAL_OUT["Quality Signals<br/>(low-res, compression artifacts, mismatch)"]
+    STOCK --> STOCK_OUT["Stock Signals<br/>(watermarks, stock-style patterns)"]
+
+    %% fusion + decision
+    DUP --> FUSE["Image Signal Fusion<br/>(weighted scoring)"]
+    META_OUT --> FUSE
+    AI_OUT --> FUSE
+    QUAL_OUT --> FUSE
+    STOCK_OUT --> FUSE
+
+    FUSE --> RISK["Risk Classification"]
+    RISK --> C1["Authentic"]
+    RISK --> C2["Suspicious"]
+    RISK --> C3["Likely Fake"]
+    RISK --> C4["Confirmed Fake"]

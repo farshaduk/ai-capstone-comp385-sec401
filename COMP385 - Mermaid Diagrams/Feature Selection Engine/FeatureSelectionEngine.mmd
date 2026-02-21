@@ -1,0 +1,20 @@
+flowchart TD
+    ALL["All Engineered Features<br/>(100+ features)"]
+    VAR["Variance Filter<br/>(drop if var < 0.01)"]
+    CORR["Correlation Filter<br/>(drop if |r| > 0.95)"]
+    MI{"Target column<br/>available?"}
+
+    MIC["Mutual Information<br/>Feature Ranking"]
+    SKIP["Skip MI step"]
+    TOPK["Select Top-K Features"]
+    FINAL["Final Feature Set<br/>(~30-40 features)"]
+
+    ALL --- VAR
+    VAR --- CORR
+    CORR --- MI
+
+    MI --- YES["Yes"] --- MIC
+    MI --- NO["No"] --- SKIP
+
+    MIC --- TOPK --- FINAL
+    SKIP --- FINAL

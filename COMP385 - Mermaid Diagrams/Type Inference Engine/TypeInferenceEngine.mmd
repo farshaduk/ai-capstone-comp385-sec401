@@ -1,0 +1,36 @@
+flowchart LR
+    subgraph Input
+        COL["Each Column"]
+    end
+
+    subgraph Detection["Pattern Detection"]
+        RE["Regex Patterns<br/>(_id, URL, email, phone, date)"]
+        DT["dtype Analysis<br/>(numeric, bool, datetime, object)"]
+        STAT["Statistical Heuristic<br/>(unique ratio, avg length)"]
+    end
+
+    subgraph Output["Detected Types"]
+        NC["numeric_continuous"]
+        ND["numeric_discrete"]
+        CUR["currency"]
+        CAT["categorical"]
+        BIN["binary"]
+        TL["text_long"]
+        TS["text_short"]
+        DTE["datetime"]
+        GL["geospatial_lat"]
+    end
+
+    COL --- RE
+    COL --- DT
+    COL --- STAT
+
+    RE --- NC
+    DT --- ND
+    DT --- BIN
+    DT --- DTE
+    STAT --- CAT
+    STAT --- TL
+    STAT --- TS
+    RE --- CUR
+    RE --- GL

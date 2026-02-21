@@ -1,0 +1,12 @@
+flowchart TD
+    INPUT["Listing Price + Location + Bedrooms"] --> EXTRACT["Auto-Extract from Text<br/>(city, property type, bedrooms)"]
+    EXTRACT --> LOOKUP["Market Data Lookup<br/>(7 cities × 4 property types × 0–4 BR)"]
+    LOOKUP --> STATS["Compute Market Statistics<br/>(mean μ, median, σ)"]
+
+    STATS --> ZSCORE["Z-Score Calculation"]
+    STATS --> DEV["Percentage Deviation"]
+
+    ZSCORE --> RISK["Risk Classification<br/>(threshold rules)"]
+    DEV --> RISK
+
+    RISK --> OUTPUT["PriceAnalysisResult<br/>(risk_level, risk_score, indicators, explanation)"]

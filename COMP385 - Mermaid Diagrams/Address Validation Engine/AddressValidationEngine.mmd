@@ -1,0 +1,18 @@
+flowchart TD
+    ADDR["Raw Address String"]
+    CLEAN["Clean & Normalize<br/>(expand abbreviations,<br/>remove special chars)"]
+    PATTERNS["Suspicious Pattern Check<br/>(PO boxes, hotels, suspicious words)"]
+    GEO["Geocode via Nominatim API<br/>(rate-limited: 1 req/sec)"]
+    PROCESS["Process Geocode Result<br/>(city, province, postal, country)"]
+    SIMPLIFY["Simplify Address<br/>(remove unit/apt numbers)"]
+    GEO2["Retry Geocode"]
+    INVALID["Mark as INVALID<br/>(risk_score += 0.2)"]
+
+    ADDR --- CLEAN --- PATTERNS --- GEO
+
+    GEO --- PROCESS
+    GEO --- SIMPLIFY
+    SIMPLIFY --- GEO2
+
+    GEO2 --- PROCESS
+    GEO2 --- INVALID

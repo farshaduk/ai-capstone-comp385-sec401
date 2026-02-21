@@ -1,0 +1,16 @@
+stateDiagram-v2
+    [*] --> Untrained : system start
+
+    Untrained --> Training : admin triggers training (fine-tune)
+
+    Training --> Trained : training completes
+    Training --> Failed : error during training
+    Failed --> Training : retry training
+
+    Trained --> Saved : save versioned model dir
+    Saved --> Active : load latest (singleton)
+
+    Active --> Predicting : analyze request
+    Predicting --> Active : return result
+
+    Active --> Training : retrain triggered

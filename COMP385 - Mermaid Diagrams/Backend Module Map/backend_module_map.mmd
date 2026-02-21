@@ -1,0 +1,50 @@
+flowchart TB
+    %% clean architecture dependency flow
+    PresentationLayer["presentation/"] --> ApplicationLayer["application/use_cases/"] --> DomainLayer["domain/"]
+    InfrastructureLayer["infrastructure/"] --> DomainLayer
+
+    %% presentation/
+    subgraph Presentation["presentation/"]
+        direction LR
+        routes["routes/"]
+        schemas["schemas.py"]
+        deps["dependencies.py"]
+    end
+
+    %% application/use_cases/
+    subgraph Application["application/use_cases/"]
+        direction LR
+        FDU["fraud_detection_use_cases.py"]
+        MU["model_use_cases.py"]
+        DU["dataset_use_cases.py"]
+        BFC["bert_fraud_classifier.py"]
+        DPP["data_preprocessing_pipeline.py"]
+        IE["indicator_engine.py"]
+        PAE["price_anomaly_engine.py"]
+        AVE["address_validation_engine.py"]
+        IAE["image_analysis_engine.py"]
+        XAI_E["real_xai_engine.py"]
+    end
+
+    %% domain/
+    subgraph Domain["domain/"]
+        direction LR
+        User["User (dataclass)"]
+        Dataset["Dataset (dataclass)"]
+        MLModel["MLModel (dataclass)"]
+        RiskAnalysis["RiskAnalysis (dataclass)"]
+    end
+
+    %% infrastructure/
+    subgraph Infrastructure["infrastructure/"]
+        direction LR
+        ORM["SQLAlchemy ORM models"]
+        DB["db_connection.py"]
+        Seed["seed_data.py"]
+        SQLite["SQLite"]
+    end
+
+    PresentationLayer --- Presentation
+    ApplicationLayer --- Application
+    DomainLayer --- Domain
+    InfrastructureLayer --- Infrastructure

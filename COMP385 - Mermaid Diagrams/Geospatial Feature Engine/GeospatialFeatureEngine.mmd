@@ -1,0 +1,18 @@
+flowchart TD
+    GEO["Latitude + Longitude"]
+    KM["K-Means Clustering<br/>(k=20 clusters)"]
+
+    CL["geo_cluster<br/>(cluster assignment)"]
+    DIST["geo_dist_to_centre<br/>(Haversine distance in km)"]
+    PVC["price_vs_cluster<br/>(price / cluster_avg_price)"]
+    PCD["price_cluster_diff<br/>(price - cluster_avg_price)"]
+
+    NORM["Normalized Coordinates<br/>(z-score)"]
+
+    GEO --- KM
+    KM --- CL
+    KM --- DIST
+    KM --- PVC
+    KM --- PCD
+
+    GEO --- NORM

@@ -1,0 +1,20 @@
+flowchart TD
+    INPUT["Listing Text + Price + Location + ML Score"] --> S1["Stage 1: Signal Collection"]
+    S1 --> S2["Stage 2: Score Calibration"]
+    S2 --> S3["Stage 3: Confidence Calculation"]
+    S3 --> S4["Stage 4: Indicator Pressure"]
+    S4 --> S5["Stage 5: Risk Level + Story"]
+
+    subgraph ST1["Stage 1 — Signal Collection"]
+        SIG1["1a. Rule / regex indicators<br/>(keyword + pattern matches)"]
+        SIG2["1b. Text style checks<br/>(caps, punctuation, length)"]
+        SIG3["1c. Price anomaly check<br/>(below-market vs baseline)"]
+        SIG4["1d. ML anomaly signal<br/>(BERT fraud probability)"]
+        SIG5["1e. Semantic signals (optional)<br/>(fuzzy matches / concept similarity)"]
+    end
+
+    S1 --> SIG1
+    S1 --> SIG2
+    S1 --> SIG3
+    S1 --> SIG4
+    S1 --> SIG5

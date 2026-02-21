@@ -1,0 +1,15 @@
+flowchart LR
+    ANALYSIS["Fraud Analysis Result"] --> CONTRIB["Feature Contribution<br/>Breakdown"]
+    ANALYSIS --> COUNTER["Counterfactual Analysis"]
+    ANALYSIS --> STORY["Natural Language<br/>Explanation"]
+
+    COUNTER --> CF_BOX["Counterfactual Examples"]
+
+    subgraph Counterfactual["Counterfactual Examples"]
+        direction TB
+        CF1["If 'wire transfer' was removed<br/>→ risk drops 78% → 45%"]
+        CF2["If price was $1200 instead of $400<br/>→ risk drops 72% → 35%"]
+    end
+
+    CF_BOX --> CF1
+    CF_BOX --> CF2

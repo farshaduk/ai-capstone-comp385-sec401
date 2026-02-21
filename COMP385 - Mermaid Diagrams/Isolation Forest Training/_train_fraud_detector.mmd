@@ -1,0 +1,26 @@
+flowchart TD
+    DF["Feature-Engineered DataFrame<br/>(~30 numeric features)"]
+    SCALE["StandardScaler<br/>(mu=0, sigma=1)"]
+    IF["Isolation Forest<br/>n_estimators=200<br/>contamination=10%"]
+
+    SCORES["Anomaly Scores<br/>(decision_function)"]
+    PREDS["Predictions<br/>(-1=anomaly, 1=normal)"]
+
+    BINARY["Binary Labels<br/>(1=fraud, 0=safe)"]
+    THRESH["Synthetic Labels<br/>(bottom 10% = fraud)"]
+
+    METRICS["Evaluation Metrics<br/>(accuracy, F1, ROC-AUC)"]
+    SAVE["Save Artifacts"]
+
+    DF --- SCALE
+    SCALE --- IF
+    IF --- SCORES
+    IF --- PREDS
+
+    PREDS --- BINARY
+    SCORES --- THRESH
+
+    BINARY --- METRICS
+    THRESH --- METRICS
+
+    IF --- SAVE

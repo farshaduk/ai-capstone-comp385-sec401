@@ -1,0 +1,23 @@
+flowchart TD
+    subgraph BERT_Path["BERT Path (Supervised)"]
+        B_IN["Raw Listing Text"]
+        B_TOK["Tokenization"]
+        B_EMB["Contextual Embeddings<br/>(768-dim per token)"]
+        B_ATT["6 Attention Layers<br/>(12 heads each)"]
+        B_CLS["[CLS] Classification"]
+        B_OUT["fraud / legitimate<br/>+ probability"]
+
+        B_IN --- B_TOK --- B_EMB --- B_ATT --- B_CLS --- B_OUT
+    end
+
+    subgraph Pipeline_Path["Pipeline Path (Unsupervised)"]
+        P_IN["Raw Dataset CSV"]
+        P_TYPE["Type Inference"]
+        P_CLEAN["Clean + Impute"]
+        P_FEAT["Feature Engineering<br/>(text stats, TF-IDF, geo, numeric)"]
+        P_SEL["Feature Selection"]
+        P_MODEL["Isolation Forest<br/>(anomaly score)"]
+        P_OUT["outlier / normal<br/>+ score"]
+
+        P_IN --- P_TYPE --- P_CLEAN --- P_FEAT --- P_SEL --- P_MODEL --- P_OUT
+    end

@@ -1,0 +1,32 @@
+flowchart TD
+    raw["Raw CSV Upload"]
+    s1["Step 1: Type Inference Engine"]
+    s2["Step 2: Data Cleaning"]
+    s2b["Step 2b: Missing Value Imputation"]
+    s3["Step 3: Outlier Detection & Handling"]
+
+    s8["Step 8: Feature Selection"]
+    s9["Step 9: Feature Assembly & Export"]
+    out["Processed CSV + pipeline_meta.json"]
+
+    raw --- s1 --- s2 --- s2b --- s3
+
+    subgraph mid["Steps 4-7"]
+        direction LR
+        s4["Step 4: Text Feature Engineering"]
+        s5["Step 5: Numerical Feature Engineering"]
+        s6["Step 6: Categorical Encoding"]
+        s7["Step 7: Geospatial Features"]
+    end
+
+    s3 --- s4
+    s3 --- s5
+    s3 --- s6
+    s3 --- s7
+
+    s4 --- s8
+    s5 --- s8
+    s6 --- s8
+    s7 --- s8
+
+    s8 --- s9 --- out

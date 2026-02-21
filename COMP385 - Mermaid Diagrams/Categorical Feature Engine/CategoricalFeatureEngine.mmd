@@ -1,0 +1,12 @@
+flowchart TD
+    CAT["Categorical Column"]
+
+    FREQ["Frequency Encoding<br/>(proportion per category)"]
+    COUNT["Count Encoding<br/>(raw count per category)"]
+    ONEHOT["One-Hot Encoding<br/>(top-50 categories)"]
+    LABEL["Label Encoding<br/>(integer mapping)"]
+
+    CAT --- FREQ
+    CAT --- COUNT
+    CAT --- ONEHOT
+    CAT --- LABEL

@@ -1,0 +1,19 @@
+flowchart LR
+    subgraph Ensemble["Ensemble Detection (Majority Vote)"]
+        IQR["IQR Method<br/>1.5x IQR rule"]
+        IF["Isolation Forest<br/>100 trees, 5% contamination"]
+        LOF["Local Outlier Factor<br/>k=20 neighbors"]
+        AGG["Majority Vote<br/>(>=50% agree = outlier)"]
+        IQR ---|vote| AGG
+        IF ---|vote| AGG
+        LOF ---|vote| AGG
+    end
+
+    subgraph Handling["Handling Strategy"]
+        CLIP["Clip to Q1-1.5IQR / Q3+1.5IQR"]
+        NAN["Replace with NaN"]
+        MEDIAN_R["Replace with Median"]
+        REMOVE["Remove rows"]
+    end
+
+    AGG --- CLIP

@@ -1,0 +1,44 @@
+sequenceDiagram
+    participant Admin as Admin UI
+    participant API as admin_routes.py
+    participant DS as dataset_use_cases.py
+    participant PP as data_preprocessing_pipeline.py
+    participant MT as model_use_cases.py
+    participant DB as SQLite Database
+    participant FS as File System
+
+    Admin->>API: Upload CSV
+    API->>DS: upload_dataset()
+
+    DS->>FS: Save raw CSV
+    DS->>DB: Create DatasetModel record
+    DS->>DS: preprocess_dataset() [auto]
+
+    DS->>PP: create_rental_fraud_pipeline()
+    PP->>PP: fit_transform(df)
+    Note over PP: 9-step preprocessing pipeline executes
+    PP-->>DS: processed_df + pipeline_meta.json
+
+    DS->>FS: Save processed CSV + pipeline_meta.json
+    DS->>DB: Update DatasetModel(processed_file_path)
+
+    Admin->>API: Train model
+    API->>MT: train_model(dataset_id)
+    MT->>DB: Load DatasetModel
+
+    alt processed_file_path exists
+        MT->>FS: Load processed CSV
+    else processed_file_path missing
+        MT->>FS: Load raw CSV
+        MT->>PP: create_rental_fraud_pipeline()
+        PP->>PP: fit_transform(df)
+        PP-->>MT: processed_df + pipeline_meta.json
+        MT->>FS: Save processed CSV + pipeline_meta.json
+        MT->>DB: Update DatasetModel(processed_file_path)
+    end
+
+    MT->>MT: Train Isolation Forest on features
+    MT->>FS: Save trained model artifact
+    MT->>DB: Save Model record (path, params, metadata)
+    MT-->>API: Training complete
+    API-->>Admin: Success
